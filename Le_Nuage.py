@@ -6,18 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-###♦ POINTS ####
-################
-
-##bordel
-
-
-
-
-
-
-
-
 #### Function ####
 ##################
 
@@ -326,10 +314,10 @@ def trace_list_miror_blanc(fi):
 
 
 
-
+#################################
 ######################################
-################# Le nuage ###########
-######################################
+################# Le nuage #####################
+######################################################
 
 ##Vue de profil (grande face)
 
@@ -999,5 +987,6 @@ ax.view_init(elev=0, azim=0) # Vu de la petite face
 
 
 plt.show()
+
 
 
