@@ -1,4 +1,4 @@
-########### FLORIAN KERBRAT MP  ##########
+########### FLORIAN KERBRAT   ##########
 
 ##Imports
 from mpl_toolkits import mplot3d
@@ -6,8 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-#### Function ####
-##################
+#### Functions ####
+###################
 
 def hauteur(a,b,pts_c):
 
@@ -25,7 +25,7 @@ def hauteur(a,b,pts_c):
     return (pf[0],pf[1],pf[2])
 
 def Cp(deg):
-    """calcul la liste des coeff de pascal pour un polynome de degree n"""
+    """calcul la liste des coeffs de pascal pour un polynome de degree n"""
     pa=[1.0]
     for j in range(deg):
         na = pa + [1.0]
@@ -37,7 +37,7 @@ def Cp(deg):
 
 
 def coord_pc(t,liste_pc):
-    """ calcul les coordonnée d'un point B POUR le paramètre t, sur une courbe de bezier definie par liste_pc
+    """ calcul les coordonnées d'un point B POUR le paramètre t, sur une courbe de bezier definie par liste_pc
     """
     liste_pascal=Cp(len(liste_pc)-1)
     cc =np.array([0.0, 0.0, 0.0], dtype=float)
@@ -116,8 +116,11 @@ def carreau(pts_c):
 
 def tracage(X,Y,Z,pts_c):
 
+    """affichage de la surface """
+    
     ax.plot_surface(X,Y,Z, cmap='winter',alpha=1, edgecolor='none', linewidth=0.025, antialiased=False, shade=True)
 
+    #si on souhaite afficher les points : 
     #for i in range(len(pts_c)):
     #    for j in range(len(pts_c[i])):
     #        ax.scatter(pts_c[i][j][0], pts_c[i][j][1], pts_c[i][j][2])
@@ -128,14 +131,17 @@ def tracage(X,Y,Z,pts_c):
 
 
 def translation_ex(pts_c,x):
+    """Deplace un point de controle d'une distance m selon l'axe Ox"""
     pts_c[:,:,0] = pts_c[:,:,0].astype(float) + x
     return()
 
 def translation_ey(pts_c,y):
+    """Deplace un point de controle d'une distance m selon l'axe Oy"""
     pts_c[:,:,1] = pts_c[:,:,1].astype(float) + y
     return()
 
 def translation_ez(pts_c,z):
+    """Deplace un point de controle d'une distance m selon l'axe Ox"""
     pts_c[:,:,2] = pts_c[:,:,2].astype(float) + z
     return()
 
@@ -145,7 +151,7 @@ def translation_ez(pts_c,z):
 
 def rotation_X_Z(X,Y,Z,pts_c):
     """
-    plan Z,Y de hauteur X
+    Créé une rotation 'artificiel' par rapport à l'axe Oy de 90°
     """
     ax.plot_surface(Z,Y,X,cmap='viridis', edgecolor='none')
     return()
@@ -153,7 +159,7 @@ def rotation_X_Z(X,Y,Z,pts_c):
 
 def rotation_Y_Z(X,Y,Z,pts_c):
     """
-    plan Z X de hauteur Y
+    Créé une rotation 'artificiel' par rapport à l'axe Ox de 90°
     """
     ax.plot_surface(X,Z,Y,cmap='winter',alpha=1, edgecolor='none', linewidth=0.025, antialiased=False, shade=True)
 
@@ -161,7 +167,7 @@ def rotation_Y_Z(X,Y,Z,pts_c):
 
 def rotation_Y_Z_miror(X,Y,Z,pts_c):
     """
-    plan Z X de hauteur Y
+    Créé une rotation 'artificiel' par rapport à l'axe Ox de -90°
     """
     ax.plot_surface(-X, -Z, Y, cmap='winter',alpha=1, edgecolor='none', linewidth=0.025, antialiased=False, shade=True)
 
@@ -170,7 +176,7 @@ def rotation_Y_Z_miror(X,Y,Z,pts_c):
 
 def rotation_Y_Z_blanc(X,Y,Z,pts_c):
     """
-    plan Z X de hauteur Y
+    Créé une rotation 'artificiel' par rapport à l'axe Ox de 90°, avec différents paramètre pour différencier les jointures
     """
     ax.plot_surface(X,Z,Y,color=(0.88, 0.88, 0.88),alpha=1, edgecolor='none', linewidth=0.025, antialiased=False, shade=True)
 
@@ -248,6 +254,7 @@ def tout_les_cubes_largeur(lptscube):
 
 
 def trace_list(f):
+    """ permet de tracer une liste de surfaces f """
     for i in range(0,len(f)):
         fi = np.array(f[i])
         X, Y, Z = carreau(fi)
@@ -257,7 +264,7 @@ def trace_list(f):
     return ()
 
 def trace_list_blanc(f):
-    """la seul différence c'est pour changer la couleur en blanc"""
+    """la seul différence (avec 'trace_list') c'est pour changer la couleur en blanc"""
     for i in range(0,len(f)):
         fi = np.array(f[i])
         fi = fi[:, ::-1]
@@ -269,13 +276,14 @@ def trace_list_blanc(f):
 
 
 
-##Meilleur symetrie
-
+############################################
+##Meilleur symetrie (que celle artificiel)##
+############################################
 
 
 def symetrie_centrale(pts_c, centre_x, centre_z):
     """
-    Effectue une symétrie centrale par rapport au point (centre_x, centre_z)
+    renvoie la symétrie central (avec la coordonnée selon Oy constante) d'un point de controle par rapport à un point de symétrie
     """
     pts_sym = pts_c.astype(float).copy()
 
@@ -286,6 +294,8 @@ def symetrie_centrale(pts_c, centre_x, centre_z):
 
 
 def trace_list_miror(fi):
+
+    """trace la symétrie d'une figure par rapport à un point de symétrie"""
     centre_x = 31.5
     centre_z = -10.5
 
@@ -300,6 +310,9 @@ def trace_list_miror(fi):
 
 
 def trace_list_miror_blanc(fi):
+
+    """trace la symétrie d'une figure par rapport à un point de symétrie (avec des paramètre différent pour les jointures)"""
+
     centre_x = 31.5
     centre_z = -10.5
 
@@ -320,7 +333,7 @@ def trace_list_miror_blanc(fi):
 ######################################################
 
 ##Vue de profil (grande face)
-
+##définition des points de controle du coté de 'face' du nuage
 
 p00=np.array([1.5,17.0,0])
 p01=np.array([3,17,0])
@@ -715,6 +728,7 @@ ttab = [t1,t2,t3]
 
 
 ##Vue de face (petite face)
+## Définition des points de contrôles du côté 'profil' du nuage
 
 q00=np.array([1.5,17,-21])
 q01=np.array([1.5,17,-19.5])
@@ -775,9 +789,6 @@ qp12 = (q21+q23)/2
 fp1 = [[q21,q12,q13],
         [qp12,qp11,qp10],
         [q23,q32,q33]]
-
-
-
 
 
 """ figure face 2 """
@@ -864,7 +875,6 @@ fp7 = [[q40,q41, q50],
         [q60,q61,q52]]
 
 
-
 """ figue jointure j """
 
 jff0 = [[q00,q01],
@@ -902,7 +912,7 @@ fptab = [fp1,fp2,fp3,fp4,fp5,fp6,fp7]
 
 
 
-##Le socle
+##Point de contrôle du socle
 
 #premire rangée
 
@@ -982,11 +992,11 @@ tout_les_cubes_largeur(lptscube)
 
 ax.view_init(elev=0, azim=0) # Vu de la petite face
 #ax.view_init(elev=90, azim=0) #Vu du dessus
-
 #ax.view_init(0, 90) # vu de la grande face
 
 
 plt.show()
+
 
 
 
